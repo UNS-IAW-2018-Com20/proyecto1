@@ -1,0 +1,216 @@
+{
+	"comisiones":[
+					{
+					"comision":1,
+					"nombre":"comision01"
+				 	}
+				 ],
+				
+	"comisiones_integrantes":[
+								{
+									"comision":17,
+									"alumno": 001
+								 },
+								{
+									"comision":17,
+									"alumno": 002
+								 }
+							],							 
+	"alumnos":[
+				{
+					"alumno":001,
+					"apellido":"Cardozo",
+					"nombre":"Jorge",
+					"lu":100588
+				},
+				{
+					"alumno":002,
+					"apellido":"Iglesias",
+					"nombre":"Juan",
+					"lu":101929
+			  	}
+			  ],
+			  
+	"evaluaciones_comisiones":[
+								{
+									"comision":17,
+									"evaluacion":501,
+									"evaluador":1,
+									"nota":"9",
+									"observaciones":"Muy buen desempeño en el trabajo",
+									"evaluacion_completa":true
+								}
+							],
+	"evaluciones_comisiones_criterios":[
+											{
+												"comision":17,
+												"evaluacion":501,
+												"criterio_evaluacion":1,
+												"nota":10,
+												"observaciones":"Vale la pena el esfuerzo"
+											},
+											{
+												"comision":17,
+												"evaluacion":501,
+												"criterio_evaluacion":2,
+												"nota":8,
+												"observaciones":"Entrega fuera de término por una hora"
+											}
+										],
+									
+	"criterio_evaluables":[
+							{
+								"criterio_evaluacion":1,
+								"evaluacion":501,
+								"descripcion":"Esfuerzo"
+							},
+
+							{
+								"criterio_evaluacion":2,
+								"evaluacion":501,
+								"descripcion":"Puntualidad"
+							}
+						],
+						
+	"evaluaciones":[
+						{
+							"evaluacion":501,
+							"nombre": "Evaluacion X",
+							"fecha":"12/12/2018",
+							"escala_notas": 1,
+							"evaluacion_tipo": 1,
+							"descripcion":"Primera Parcial de Aplicaciones web",
+							"publicada":true
+						}
+					],
+					
+	"evaluacion_tipo":[
+						{
+							"evaluacion_tipo":1,
+							"nombre":"Parcial"
+						},
+							
+						{
+							"evaluacion_tipo":2,
+							"nombre":"Proyecto"
+						},
+							
+						{
+							"evaluacion_tipo":3,
+							"nombre":"Recuperatorio"
+						}
+					],
+						
+	"escalas_notas":[
+						{
+							"escala_notas":1,
+							"nombre":"Del 1 al 5",
+							"descripcion":"1 y 2 desaprobados. 3, 4 y 5 aprobados."
+						},
+						
+						{
+							"escala_notas":2,
+							"nombre":"Aprobado/Desaprobado",
+							"descripcion":"Lo que dice el nombre"
+						}
+					],
+						
+	"escala_notas_detalles":[
+								{
+									"nota":"1",
+									"nota_descr": "Nota 1 sobre 5",
+									"escala_notas":1,
+									"concepto":1,
+									"resultado":2
+								},
+								
+								{
+									"nota":"2",
+									"nota_descr": "Nota 2 sobre 5",
+									"escala_notas":1,
+									"concepto":2,
+									"resultado":2
+								},
+								
+								{
+									"nota":"3",
+									"nota_descr": "Nota 3 sobre 5",
+									"escala_notas":1,
+									"concepto":3,
+									"resultado":1
+								},
+								
+								{
+									"nota":"4",
+									"nota_descr": "Nota 4 sobre 5",
+									"escala_notas":1,
+									"concepto":2,
+									"resultado":1
+								},
+								
+								{
+									"nota":"5",
+									"nota_descr": "Nota 5 sobre 5",
+									"escala_notas":1,
+									"concepto":1,
+									"resultado":1
+								},
+								
+								{
+									"nota":"A",
+									"nota_descr": "Nota de aprobación",
+									"escala_notas":2,
+									"concepto":3,
+									"resultado":1
+								},
+								
+								{
+									"nota":"D",
+									"nota_descr": "Nota de desaprobación",
+									"escala_notas":2,
+									"concepto":1,
+									"resultado":2
+								}
+							],
+							
+	"notas_concepto":[
+						{
+							"concepto":1,
+							"descripcion": "Mal"
+						},
+						 
+						{
+							"concepto":2,
+							"descripcion": "Regular"
+						},
+						 
+						{
+							"concepto":3,
+							"descripcion": "Bien"
+						},
+						 
+						{
+							"concepto":4,
+							"descripcion": "Muy Bien"
+						},
+						 
+						{
+							"concepto":5,
+							"descripcion": "Excelente"
+						}
+					],
+						 
+	"notas_resultado":[
+						{
+							"resultado":1,
+							"descripcion":"Aprobado"
+						},					 
+							
+						{
+							"resultado":2,
+							"descripcion":"Desaprobado"
+						}
+					]
+}						
+
+					
