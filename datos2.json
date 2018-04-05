@@ -1,0 +1,49 @@
+{
+	"evaluaciones":[
+						{
+							"evaluacion":501,
+							"nombre": "Evaluacion X",
+							"fecha":"12/1/2018",
+							"escala_notas": 1,
+							"evaluacion_tipo": 1,
+							"descripcion":"Primer Parcial de Aplicaciones Web",
+							"publicada":true
+						},
+						{
+							"evaluacion":502,
+							"nombre": "Evaluacion Y",
+							"fecha":"12/12/2018",
+							"escala_notas": 1,
+							"evaluacion_tipo": 1,
+							"descripcion":"Segundo Parcial de Aplicaciones Web",
+							"publicada":true
+						}
+					],
+
+	"evaluaciones_comisiones":[
+								{
+									"comision":17,
+									"evaluacion":501,
+									"evaluador":1,
+									"nota":"9",
+									"observaciones":"Muy buen desempeño en el trabajo",
+									"evaluacion_completa":true
+								},
+								{
+									"comision":18,
+									"evaluacion":501,
+									"evaluador":1,
+									"nota":"",
+									"observaciones":"",
+									"evaluacion_completa":false
+								},
+								{
+									"comision":19,
+									"evaluacion":501,
+									"evaluador":1,
+									"nota":"",
+									"observaciones":"",
+									"evaluacion_completa":false
+								}
+							]
+}
