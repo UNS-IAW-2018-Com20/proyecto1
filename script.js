@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	//window.localStorage.clear();
+	$("#tablaEvaluar").hide();
 	cargarEvaluaciones();
 
 });
@@ -36,7 +37,8 @@ function cargarEvaluacionesAux(evaluaciones){
 						//Se crea el identificador ev+ id de la evauluación
 						var identificacion = "ev"+$(this).attr("evaluacion");
 						//Se agrega la fila de la evaluación a la tabla 
-	        			$("tbody").append("<tr id='"+identificacion+"'><td>"+$(this).attr("nombre")+"</td><td>"+$(this).attr("descripcion")+"</td><td>"+$(this).attr("fecha")+"</td></tr>");
+	        			$("#tablaEvaluaciones tbody").append("<tr id='"+identificacion+"'><td>"+$(this).attr("nombre")+"</td><td>"+$(this).attr("descripcion")+"</td><td>"+$(this).attr("fecha")+"</td></tr>");
+	        			//<td>"+$(this).attr("nombre")+"</td><td>"+$(this).attr("descripcion")+"</td><td>"+$(this).attr("fecha")+"</td>
 	        			//Si es selecccionable entonces se agrega el atributo html clickeable como true y se agrega la función que se ejecuta al clickearla
 	        			if (clickeable){ 
 	        				$("#"+identificacion).attr('clickeable','true');
@@ -59,9 +61,12 @@ function clickEvaluacion(identificacion){
 			//Si la comisión corresponde a la evaluación entonces se agrega
 			if ("ev"+this.evaluacion == identificacion){
 				var completa = this.evaluacion_completa;
-				var nota = (completa == "true") ? "Nota: "+ this.nota +"</br>"+this.observaciones : "No Evaluado";
+				var nota = (completa === true) ? "Nota: "+ this.nota +"</td><td>Observación: "+this.observaciones : "No Evaluado</td><td><button type='button' id='evalCom"+this.comision+"'>Evaluar</button></td>";
 				var comision = getElementArray(data.comisiones,"comision",this.comision);
-				$("<tr><td colspan='3'><table class='"+identificacion+"'><tr><td>"+comision.nombre+"</td></tr><tr><td>"+nota+"</td></tr></table></td></tr>").insertAfter($("#"+identificacion));
+				$("<tr class='"+identificacion+"''><td>"+comision.nombre+"</td><td>"+nota+"</td></tr>").insertAfter($("#"+identificacion));
+				$( "#evalCom"+this.comision).click(function() {
+  					horaDeEvaluar(this.comision,comision.nombre);
+				});
 			}
 				
 		});
@@ -79,7 +84,7 @@ function getElementArray(arreglo,elemento,valor){
 	var resultado = null;
 	var encontrado = false;
 	var i=0;
-	while (i < arreglo.length || !encontrado){
+	while (i < arreglo.length && !encontrado){
 		if (arreglo[i][elemento] == valor){
 			encontrado = true;
 			resultado = arreglo[i];
@@ -87,4 +92,16 @@ function getElementArray(arreglo,elemento,valor){
 		i++;
 	}
 	return resultado;
+}
+
+function horaDeEvaluar(numeroDeComision,nombreDeComision){
+	var data = JSON.parse(window.localStorage.getItem("_datos"));
+	console.log(data.evaluaciones_comisiones);
+	console.log(numeroDeComision);
+	var eval_com = getElementArray(data.evaluaciones_comisiones,"comision",numeroDeComision);
+	console.log(eval_com);
+	var eval = getElementArray(data.evaluaciones,"evaluacion",eval_com.evaluacion);
+	$("#tablaEvaluar thead").append("<tr><td colspan='3'>"+eval.nombre+" - "+nombreDeComision+"</td></tr>")
+	$("#tablaEvaluaciones").hide();
+	$("#tablaEvaluar").show();
 }
