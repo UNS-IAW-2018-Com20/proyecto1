@@ -19,7 +19,6 @@
 							"publicada":true
 						}
 					],
-
 	"evaluaciones_comisiones":[
 								{
 									"comision":17,
@@ -45,5 +44,19 @@
 									"observaciones":"",
 									"evaluacion_completa":false
 								}
-							]
+							],
+	"comisiones":[
+		{
+			"comision":17,
+			"nombre":"Comisión JJ"
+		},
+		{
+			"comision":18,
+			"nombre":"Comisión griega"
+		},
+		{
+			"comision":19,
+			"nombre":"Comisión Fútbol"
+		}
+	]
 }
