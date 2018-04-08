@@ -1,13 +1,20 @@
 $(document).ready(function(){
 	//window.localStorage.clear();
 	//console.log("carga");
+
+	//Acción del click en el botón de volver de la pantalla de evaluación
 	$("#backButton").click(function(){
 		volver();
 	});
-	$("#formEvaluacion").submit(function(){
-		evaluar($("#formEvaluacion").serialializeArray());
+	//Acción del submit del formulario de evaluación
+	$("#formEvaluacion").submit(function(event){
+		event.preventDefault();
+		evaluar($("#formEvaluacion").serializeArray());
+		$(this).unbind('submit').submit();
 	});
+	//Oculto la pantalla de evaluación
 	$("#divEvaluar").hide();
+
 	cargarEvaluaciones();
 
 });
@@ -66,6 +73,7 @@ function cargarEvaluacionesAux(evaluaciones){
 }
 
 function clickEvaluacion(identificacion){
+	//Si la evaluación es clickeable y no fue creada es necesaria obtener de local storage los datos 
 	if (( $("#"+identificacion).attr('clickeable') == "true") && ($("#"+identificacion).attr('creada') == "false")){
 		$("#"+identificacion).attr('clickeable','false');
 		$("#"+identificacion).attr('creada','true');
@@ -86,11 +94,13 @@ function clickEvaluacion(identificacion){
 			}
 				
 		});
-
+	
 	} else if (( $("#"+identificacion).attr('clickeable') == "true") && ($("#"+identificacion).attr('creada') == "true")){
+		//Si había sido creada simplemente se muestra nuevamente
 		$("."+identificacion).show();
 		$("#"+identificacion).attr('clickeable','false');
 	} else {
+		//Si no era clickeable entonces estaba expandida y se oculta
 		$("."+identificacion).hide();
 		$("#"+identificacion).attr('clickeable','true');
 	}
@@ -111,7 +121,7 @@ function getElementArray(arreglo,elemento,valor){
 	return resultado;
 }
 
-
+//Devuelve varios objetos de "arreglo" cuyos atributos "elemento" sean igual a "valor"
 function getElementsArray(arreglo,elemento,valor){
 	var resultado = new Object();
 	var i=0;
@@ -126,12 +136,17 @@ function getElementsArray(arreglo,elemento,valor){
 	return resultado;	
 }
 
+
+//Cambio de pantalla a evaluación
 function horaDeEvaluar(numeroDeComision,nombreDeComision){
+
 	var data = JSON.parse(window.localStorage.getItem("_datos"));
+	//Obtiene la evaluación de la comisión
 	var eval_com = getElementArray(data.evaluaciones_comisiones,"comision",numeroDeComision);
 	var eval = getElementArray(data.evaluaciones,"evaluacion",eval_com.evaluacion);
-	var escala_datos = getElementArray(data.escalas_notas,"escala_notas",eval.escala_notas);
+
 	//Obtengo las notas de la escala
+	var escala_datos = getElementArray(data.escalas_notas,"escala_notas",eval.escala_notas);
 	var escalaNotas = getElementsArray(data.escala_notas_detalles,"escala_notas",eval.escala_notas);
 
 	//Creación del botón para seleccionar la nota correspondiente
@@ -141,22 +156,22 @@ function horaDeEvaluar(numeroDeComision,nombreDeComision){
 	});
 	select.attr("id","criterio"+this.criterio_evaluacion);
 
-	//$("<tr><td colspan='3'>"+eval.nombre+" - "+nombreDeComision+"</td></tr>").insertBefore("#formEvaluacion");
+
 	$("#tablaEvaluar thead").append("<tr><th colspan='3'>"+eval.nombre+" - "+nombreDeComision+"</th></tr>");
-	//Se obtienen todos los miembros de la comisión
+
+	//Se crea una lista, se obtienen los miembros de la comisión, y se agregan a la misma
 	$("#tablaEvaluar tbody").prepend("<tr><td colspan='3'><ul></ul></td></tr>");
-	//$("<tr><td colspan='3'><ul></ul></td></tr>").insertBefore("#formEvaluacion");
 	var miembros = getElementsArray(data.comisiones_integrantes,"comision",numeroDeComision);
 	$("#tablaEvaluar tbody tr td ul").append("<li>Integrantes</li>");
 	$.each(miembros,function(){
 		var alumno = getElementArray(data.alumnos,"alumno",this.alumno);
 		$("#tablaEvaluar tbody tr td ul").append("<li>"+alumno.apellido+", "+alumno.nombre+"</li>");
 	});
+
 	//Se obtienen los criterios de la evaluación
 	var criterios = getElementsArray(data.criterio_evaluables,"evaluacion",eval.evaluacion);
 	$.each(criterios,function(){
-		$("#formEvaluacion").prepend("<textarea rows='2' name='obs"+this.criterio_evaluacion+"' form='formEvaluacion' cols='50' placeholder='Observación...'></textarea><br>");
-		$("#formEvaluacion").prepend("<br>");
+		
 		//Creación del botón para seleccionar la nota correspondiente
 		var select = $(document.createElement('select'));
 		select.attr("name","notas");
@@ -164,8 +179,11 @@ function horaDeEvaluar(numeroDeComision,nombreDeComision){
 			select.append("<option>"+this.nota+"</option>")
 		});
 		select.attr("name","criterio"+this.criterio_evaluacion);
-		$("#formEvaluacion").prepend(select);
-		$("#formEvaluacion").prepend(this.descripcion+" ");
+		
+		$("#comentario_general_label").before(this.descripcion+" ");
+		$("#comentario_general_label").before(select);
+		$("#comentario_general_label").before("<br><textarea rows='2' name='obs"+this.criterio_evaluacion+"' form='formEvaluacion' cols='50' placeholder='Observación...'></textarea><br>");
+
 
 	});
 
@@ -179,5 +197,6 @@ function horaDeEvaluar(numeroDeComision,nombreDeComision){
 function evaluar(arreglo_formulario){
 	//Se reciben los datos del formulario como un arreglo
 	console.log(arreglo_formulario);
+	//EN proceso
 	window.localStorage.setItem("_form", JSON.stringify(arreglo_formulario));
 }
