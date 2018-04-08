@@ -1,9 +1,24 @@
 $(document).ready(function(){
 	//window.localStorage.clear();
-	$("#tablaEvaluar").hide();
+	//console.log("carga");
+	$("#backButton").click(function(){
+		volver();
+	});
+	$("#formEvaluacion").submit(function(){
+		evaluar($("#formEvaluacion").serialializeArray());
+	});
+	$("#divEvaluar").hide();
 	cargarEvaluaciones();
 
 });
+
+
+function volver(){
+	$("#tablaEvaluar thead tr").remove();
+	$("#tablaEvaluar tbody tr:first").remove();
+	$("#divEvaluar").hide();
+	$("#divEvaluaciones").show();
+}
 
 function cargarEvaluaciones(){
 	if (window.localStorage.getItem("_datos") === null) {
@@ -62,10 +77,11 @@ function clickEvaluacion(identificacion){
 			if ("ev"+this.evaluacion == identificacion){
 				var completa = this.evaluacion_completa;
 				var nota = (completa === true) ? "Nota: "+ this.nota +"</td><td>Observación: "+this.observaciones : "No Evaluado</td><td><button type='button' id='evalCom"+this.comision+"'>Evaluar</button></td>";
-				var comision = getElementArray(data.comisiones,"comision",this.comision);
+				var numeroComision = this.comision;
+				var comision = getElementArray(data.comisiones,"comision",numeroComision);
 				$("<tr class='"+identificacion+"''><td>"+comision.nombre+"</td><td>"+nota+"</td></tr>").insertAfter($("#"+identificacion));
-				$( "#evalCom"+this.comision).click(function() {
-  					horaDeEvaluar(this.comision,comision.nombre);
+				$( "#evalCom"+numeroComision).click(function() {
+  					horaDeEvaluar(numeroComision,comision.nombre);
 				});
 			}
 				
@@ -80,6 +96,7 @@ function clickEvaluacion(identificacion){
 	}
 }
 
+//Devuelve un objeto de "arreglo" cuyo atributo "elemento" sea igual a "valor"
 function getElementArray(arreglo,elemento,valor){
 	var resultado = null;
 	var encontrado = false;
@@ -94,14 +111,73 @@ function getElementArray(arreglo,elemento,valor){
 	return resultado;
 }
 
+
+function getElementsArray(arreglo,elemento,valor){
+	var resultado = new Object();
+	var i=0;
+	var j=0;
+	while (i < arreglo.length){
+		if (arreglo[i][elemento] == valor){
+			resultado[j] = arreglo[i];
+			j++;
+		}
+		i++;
+	}
+	return resultado;	
+}
+
 function horaDeEvaluar(numeroDeComision,nombreDeComision){
 	var data = JSON.parse(window.localStorage.getItem("_datos"));
-	console.log(data.evaluaciones_comisiones);
-	console.log(numeroDeComision);
 	var eval_com = getElementArray(data.evaluaciones_comisiones,"comision",numeroDeComision);
-	console.log(eval_com);
 	var eval = getElementArray(data.evaluaciones,"evaluacion",eval_com.evaluacion);
-	$("#tablaEvaluar thead").append("<tr><td colspan='3'>"+eval.nombre+" - "+nombreDeComision+"</td></tr>")
-	$("#tablaEvaluaciones").hide();
-	$("#tablaEvaluar").show();
+	var escala_datos = getElementArray(data.escalas_notas,"escala_notas",eval.escala_notas);
+	//Obtengo las notas de la escala
+	var escalaNotas = getElementsArray(data.escala_notas_detalles,"escala_notas",eval.escala_notas);
+
+	//Creación del botón para seleccionar la nota correspondiente
+	var select = $(document.createElement('select'));
+	$.each(escalaNotas,function(){
+		select.append("<option>"+this.nota+"</option>")
+	});
+	select.attr("id","criterio"+this.criterio_evaluacion);
+
+	//$("<tr><td colspan='3'>"+eval.nombre+" - "+nombreDeComision+"</td></tr>").insertBefore("#formEvaluacion");
+	$("#tablaEvaluar thead").append("<tr><th colspan='3'>"+eval.nombre+" - "+nombreDeComision+"</th></tr>");
+	//Se obtienen todos los miembros de la comisión
+	$("#tablaEvaluar tbody").prepend("<tr><td colspan='3'><ul></ul></td></tr>");
+	//$("<tr><td colspan='3'><ul></ul></td></tr>").insertBefore("#formEvaluacion");
+	var miembros = getElementsArray(data.comisiones_integrantes,"comision",numeroDeComision);
+	$("#tablaEvaluar tbody tr td ul").append("<li>Integrantes</li>");
+	$.each(miembros,function(){
+		var alumno = getElementArray(data.alumnos,"alumno",this.alumno);
+		$("#tablaEvaluar tbody tr td ul").append("<li>"+alumno.apellido+", "+alumno.nombre+"</li>");
+	});
+	//Se obtienen los criterios de la evaluación
+	var criterios = getElementsArray(data.criterio_evaluables,"evaluacion",eval.evaluacion);
+	$.each(criterios,function(){
+		$("#formEvaluacion").prepend("<textarea rows='2' name='obs"+this.criterio_evaluacion+"' form='formEvaluacion' cols='50' placeholder='Observación...'></textarea><br>");
+		$("#formEvaluacion").prepend("<br>");
+		//Creación del botón para seleccionar la nota correspondiente
+		var select = $(document.createElement('select'));
+		select.attr("name","notas");
+		$.each(escalaNotas,function(){
+			select.append("<option>"+this.nota+"</option>")
+		});
+		select.attr("name","criterio"+this.criterio_evaluacion);
+		$("#formEvaluacion").prepend(select);
+		$("#formEvaluacion").prepend(this.descripcion+" ");
+
+	});
+
+	$("#formEvaluacion").prepend("Criterios de Evaluacion<br>");
+
+
+	$("#divEvaluaciones").hide();
+	$("#divEvaluar").show();
+}
+
+function evaluar(arreglo_formulario){
+	//Se reciben los datos del formulario como un arreglo
+	console.log(arreglo_formulario);
+	window.localStorage.setItem("_form", JSON.stringify(arreglo_formulario));
 }
