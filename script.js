@@ -9,6 +9,13 @@ $(document).ready(function(){
 	//Acción del submit del formulario de evaluación
 	$("#formEvaluacion").submit(function(event){
 		event.preventDefault();
+		//Se agrega la nota general al formulario
+		$('<input>').attr({
+    		type: 'hidden',
+    		name: 'nota_General',
+    		value: $("#nota_general").text()
+		}).appendTo('#formEvaluacion');
+
 		evaluar($("#formEvaluacion").serializeArray());
 		$(this).unbind('submit').submit();
 	});
@@ -180,6 +187,7 @@ function horaDeEvaluar(numeroDeComision,nombreDeComision){
 
 	//Se obtienen los criterios de la evaluación
 	var criterios = getElementsArray(data.criterio_evaluables,"evaluacion",eval.evaluacion);
+	var long = criterios.lenght
 	$.each(criterios,function(){
 		
 		//Creación del botón para seleccionar la nota correspondiente
@@ -189,6 +197,19 @@ function horaDeEvaluar(numeroDeComision,nombreDeComision){
 			select.append("<option>"+this.nota+"</option>")
 		});
 		select.attr("name","criterio"+this.criterio_evaluacion);
+		select.attr("id","criterio"+this.criterio_evaluacion);
+
+
+		select.change(function(){
+				//Al cambiar una opción se recalcula la nota
+				var cantidadCriterios = Object.keys(criterios).length;
+				var i;
+				var total=0;
+				for (i=0;i<cantidadCriterios;i++){
+					total+= parseInt($("#criterio"+criterios[i].criterio_evaluacion).find(":selected").text());
+				}
+				$("#nota_general").text(total/cantidadCriterios);
+		});
 		
 		$("#divCriterios").append(this.descripcion+" ");
 		$("#divCriterios").append(select);
@@ -196,7 +217,7 @@ function horaDeEvaluar(numeroDeComision,nombreDeComision){
 
 
 	});
-
+	
 
 	//Se agrega el número de comisión y de evaluación
 	$('<input>').attr({
@@ -211,6 +232,7 @@ function horaDeEvaluar(numeroDeComision,nombreDeComision){
     	value: eval.evaluacion
 	}).appendTo('#formEvaluacion');
 
+
 	$("#divEvaluacionesGeneral").hide();
 	$("#divEvaluarGeneral").show();
 }
@@ -218,10 +240,15 @@ function horaDeEvaluar(numeroDeComision,nombreDeComision){
 function evaluar(arreglo_formulario){
 	//Se reciben los datos del formulario como un arreglo
 	var largo = arreglo_formulario.length;
-	//Los últimos dos elementos representan al número de comisión y de examen
-	var numeroEvaluacion = arreglo_formulario[largo-1].value;
+	//Los últimos cuatro elementos representan las observaciones generales, el número de comisión, el de evaluación y la nota general respectivamente
+	var nota_General = arreglo_formulario[largo-1].value;
 
-	var numeroComision = arreglo_formulario[largo-2].value;
+	var numeroEvaluacion = arreglo_formulario[largo-2].value;
+
+	var numeroComision = arreglo_formulario[largo-3].value;
+
+	var obs = arreglo_formulario[largo-4].value;
+
 
 	//Al ser evaluado es necesario modificar "evaluaciones_comisiones" y "evaluciones_comisiones_criterios"
 	//Primero se modifica la evaluacion_comisiones
@@ -231,8 +258,9 @@ function evaluar(arreglo_formulario){
 	while (!encontrado){
 		if ((datos.evaluaciones_comisiones[i].comision == numeroComision) && (datos.evaluaciones_comisiones[i].evaluacion == numeroEvaluacion)){
 			encontrado = true;
-			datos.evaluaciones_comisiones[i].observaciones = arreglo_formulario[largo-3].value;
+			datos.evaluaciones_comisiones[i].observaciones = obs;
 			datos.evaluaciones_comisiones[i].evaluacion_completa = true;
+			datos.evaluaciones_comisiones[i].nota = nota_General;
 		}
 		i++;
 	}
@@ -240,7 +268,7 @@ function evaluar(arreglo_formulario){
 	//Luego se modifica evaluaciones_comisiones_criterios
 	i = 0;
 	j = 0;
-	while (j<(largo - 3)){ //Mientras haya criterios 
+	while (j<(largo - 4)){ //Mientras haya criterios 
 
 		if (datos.evaluaciones_comisiones_criterios[i].comision == numeroComision){
 			datos.evaluaciones_comisiones_criterios[i].nota = arreglo_formulario[j].value;
@@ -321,7 +349,7 @@ function iniciarSesion(){
 
 function registrarse(){
 	$("#registrarse").click(function(){
-		$("#ventana_login").hide();
+		$("#ventana_login").remove();
 		$("#ventana_registro").show();
 
 	});
