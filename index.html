@@ -1,34 +1,310 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<title>Proyecto 1</title>
-	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-	<script src="jquery-3.3.1.min.js"></script>
-	<script src="script.js"></script>
-</head>
-<body>
-	<div id="divEvaluaciones">
-		<table id="tablaEvaluaciones">
-			<thead><tr><th colspan="3">Listado de Evaluaciones</th></tr></thead>
+<html lang="en">
+  <head id="cabecera">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    -->
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/estiloInicial.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!--<link rel="stylesheet" href="css/estilosLogin.css">-->
+    <link rel="stylesheet" href="iconos/css/fontawesome.min.css">
+
+    
+
+   <!-- <link rel="stylesheet" href="css/miEstilo.css">-->
+   <style >
+     body{
+          padding-top:80px;
+     }
+   </style>
+
+  </head>
+  <body>
+
+  	<!--Barra de Navegacion-->
+    <div>
+
+      <head>
+
+        <nav class="navbar fixed-top navbar-toggleable-sm navbar-light " >
+      
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded=" false" aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon"></span>
+              </button>
+
+              <a class="navbar-brand" href="#">
+               <img src="imagenes/logo_UNS2.png" width="50" height="50" alt="UNS">
+               UNS
+              </a>
+            
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                
+                <div id="misMenues" class="navbar-nav text-center mr-auto">
+                 <a id="menuAcceso" class="nav-item nav-link" href="#">Acceso</a> 
+                </div>
+                
+               <form id="menuDerecha" class="form-inline my-2 my-lg-0 d-flex flex-row justify-content-center">
+				      <button id="b" type="button" href="#" class="btn btn-primary mr-2">Estilo</button>
+   			   </form>
+            </div>  
+
+             <!--<div id="menuDerecha" class="nav-item d-flex flex-row justify-content-center nav navbar-nav navbar-right">
+                  <a id="b" href="#" class="btn btn-primary mr-2">Estilo</a>
+             </div>
+			-->
+			<!--<ul id="menuDerecha" class="nav-item d-flex flex-row justify-content-center nav navbar-nav navbar-right">
+				<a id="b" class="nav-item nav-link" href="#">Estilo</a>
+				
+			</ul>-->
+			
+
+            
+            
+
+
+        </nav>
+      </head>
+    </div>
+
+		
+    <!-- Nuevo Login con Bootstrap-->
+    
+    <div id="ventana_login" class="my-content" >
+        <div class="container" > 
+
+            
+            <div class="row ">
+                  <div class="col-md-8 col-md-offset-3 myform-cont" >
+
+                  	  
+                      <div class="myform-top">
+
+                          <div class="myform-top-left">
+                            <h3>Ingresa a nuestro sitio.</h3>
+                              <p>Digita tu usuario y contraseña:</p>
+                          </div>
+                          <div class="">
+                          		<br>
+                            	<button id="registrarse" type="submit" class="mybtn">Registrarse</button>
+                      	  </div>
+                          <div class="myform-top-right">
+                            <i class="fa fa-user"></i>
+
+                           
+                          </div>
+                           
+
+                      </div>
+                      <div class="myform-bottom">
+
+
+                        <form role="form" action="" method="post" class="">
+                          <div class="form-group">
+                              <input type="text" name="form-username" placeholder="Usuario..." class="form-control" id="form-username">
+                          </div>
+                          <div class="form-group">
+                              <input type="password" name="form-password" placeholder="Contraseña..." class="form-control" id="form-password">
+                          </div>
+
+                          <button id="iniciar_sesion" type="submit" class="mybtn">Entrar</button>
+                        </form>
+                      </div>
+                  </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--Ventana de registro-->
+
+    <div id="ventana_registro" class="my-content" >
+        <div class="container" > 
+            
+            <div class="row">
+              <div class="col-sm-6 col-sm-offset-3 myform-cont" >
+                    <div class="myform-top">
+                        <div class="myform-top-left">
+                          <h3>Regístrate en nuestro sitio.</h3>
+                            <p>Por favor ingresa tus datos personales:</p>
+                        </div>
+                        <div class="myform-top-right">
+                          <i class="fa fa-user"></i>
+                        </div>
+                    </div>
+                    <div class="myform-bottom">
+                      <form role="form" action="" method="post" class="">
+                        <div class="form-group">
+                            <input type="text" name="form-firtsname" placeholder="Nombres..." class="form-control" id="form-firtsname">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="form-lastname" placeholder="Apellidos..." class="form-control" id="form-lastname">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="form-email" placeholder="Email..." class="form-control" id="form-email">
+                        </div>
+                        <button type="submit" class="mybtn">Registrarme</button>
+                      </form>
+                    </div>
+              </div>
+            </div>
+            
+        </div>
+      </div>
+
+ 	<!--tablas nueva version-->
+
+ 	<!--<div id="divEvaluaciones" class="col-lg-12">
+		<div  class="my-content" >
+        <div class="container" > 
+
+            
+
+            <div class="row ">
+                  <div class="col-lg-12 col-lg-offset-3 myform-cont" >
+                      <div class="myform-top">
+                          <div class="myform-top-left">
+                            
+                          </div>
+                          
+                      </div>
+                      <div class="myform-bottom">
+                        
+
+                      	<div id="divEvaluaciones">
+							<table class="table table-hover table-bordered" id="tablaEvaluaciones">
+								<thead class="thead-inverse"><tr><th colspan="3">Listado de Evaluaciones</th></tr></thead>
+								<tbody></tbody>
+							</table>	
+						</div>
+                      		
+
+
+
+                      </div>
+                  </div>
+            </div>
+
+        </div>
+    </div>-->
+
+
+
+    <div id="divEvaluaciones">
+		<table class="table table-hover table-bordered" id="tablaEvaluaciones">
+			<thead class="thead-inverse"><tr><th col-xl-12>Listado de Evaluaciones</th></tr></thead>
 			<tbody></tbody>
 		</table>	
 	</div>
-	<div id="divEvaluar" >
-		<table id="tablaEvaluar">
-			<thead></thead>
-			<tbody>
-				<tr>
-					<td colspan="3">
-						<form id="formEvaluacion">
-							<label id="comentario_general_label">Comentario General</label> <br>
-							<textarea rows="4" name="comentario_general" required="true" cols="50" placeholder="Este campo es obligatorio"></textarea><br>
-							<label id="nota_general_label"> Nota General: </label> <br>
-							<input type="button" value="Volver" id="backButton" align="center" /> <input type="submit" id="califButton" align="center" />
-						</form>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-</body>
+
+
+
+
+ 	
+	
+	<div id="divEvaluar" class="col-lg-12">
+		<div  class="my-content" >
+        <div class="container" > 
+
+            
+
+            <div class="row ">
+                  <div class="col-lg-12 col-lg-offset-3 myform-cont" >
+                      <div class="myform-top">
+                          <div class="myform-top-left">
+                            <!--<h3>Integrantes</h3>
+                              <p>Comision:</p>-->
+                          </div>
+                          
+                      </div>
+                      <div class="myform-bottom">
+                        
+
+
+                      		<div id="divEvaluar" class="col-lg-12">
+            								<table class="table table-hover table-bordered" id="tablaEvaluar">
+            									<thead class="thead-inverse"></thead>
+            									<tbody>
+            										<tr>
+            											<td colspan="3">
+
+            													<form id="formEvaluacion">
+                                        <div id="divCriterios">
+                                          Criterios de Evaluacion <br>
+                                        </div>
+            														<label id="comentario_general_label">Comentario General</label> <br>
+            														<textarea class="form-control" rows="4" name="comentario_general" required="true" cols="50" placeholder="Este campo es obligatorio"></textarea><br>
+            														<label id="nota_general_label"> Nota General: </label> <br>
+            														<input type="button" value="Volver" id="backButton" align="center" /> <input type="submit" id="califButton" align="center" />
+            													</form>
+            											
+            												
+            											</td>
+            										</tr>
+            									</tbody>
+            								</table>
+							</div>
+
+
+
+                      </div>
+                  </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--Footer-->
+
+   <!-- <footer id="pie" class="footer py-2 text-xs-center">
+    	<div class="container">		
+    		<p>Comision - Iglesias-Cardozo - 2018</p>
+    	</div>
+    </footer>
+
+	-->
+
+
+
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+
+
+
+  	<script src="jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+    <script src="js/main.js"></script>
+    
+
+  </body>
 </html>

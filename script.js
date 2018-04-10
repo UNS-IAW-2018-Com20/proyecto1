@@ -15,14 +15,23 @@ $(document).ready(function(){
 	//Oculto la pantalla de evaluación
 	$("#divEvaluar").hide();
 
+	/*parte que agrego Jorge1*/
+	$("#divEvaluaciones").hide();
+	$("#ventana_registro").hide();
+
 	cargarEvaluaciones();
+	cambiarEstilo();
+	iniciarSesion();
+	registrarse();
+
+	/*fin de la parte de Jorge1*/
 
 });
 
-
 function volver(){
-	$("#tablaEvaluar thead tr").remove();
-	$("#tablaEvaluar tbody tr:first").remove();
+	$("#tablaEvaluar thead tr").remove()
+	$("#tablaEvaluar tbody tr:first").remove()
+	$("#divCriterios").empty();
 	$("#divEvaluar").hide();
 	$("#divEvaluaciones").show();
 }
@@ -59,7 +68,7 @@ function cargarEvaluacionesAux(evaluaciones){
 						//Se crea el identificador ev+ id de la evauluación
 						var identificacion = "ev"+$(this).attr("evaluacion");
 						//Se agrega la fila de la evaluación a la tabla 
-	        			$("#tablaEvaluaciones tbody").append("<tr id='"+identificacion+"'><td>"+$(this).attr("nombre")+"</td><td>"+$(this).attr("descripcion")+"</td><td>"+$(this).attr("fecha")+"</td></tr>");
+	        			$("#tablaEvaluaciones tbody").append("<tr id='"+identificacion+"'><td col-xl-2>"+$(this).attr("nombre")+"</td><td col-xl-5>"+$(this).attr("descripcion")+"</td><td col-xl-5>"+$(this).attr("fecha")+"</td></tr>");
 	        			//<td>"+$(this).attr("nombre")+"</td><td>"+$(this).attr("descripcion")+"</td><td>"+$(this).attr("fecha")+"</td>
 	        			//Si es selecccionable entonces se agrega el atributo html clickeable como true y se agrega la función que se ejecuta al clickearla
 	        			if (clickeable){ 
@@ -84,10 +93,13 @@ function clickEvaluacion(identificacion){
 			//Si la comisión corresponde a la evaluación entonces se agrega
 			if ("ev"+this.evaluacion == identificacion){
 				var completa = this.evaluacion_completa;
-				var nota = (completa === true) ? "Nota: "+ this.nota +"</td><td>Observación: "+this.observaciones : "No Evaluado</td><td><button type='button' id='evalCom"+this.comision+"'>Evaluar</button></td>";
+				var nota = (completa === true) ? "<td>Nota: "+ this.nota +"</td><td>Observación: "+this.observaciones+"</td>" : "<td> No Evaluado</td><td><button type='button' id='evalCom"+this.comision+"'>Evaluar</button></td>";
+				if (completa === true){
+
+				}
 				var numeroComision = this.comision;
 				var comision = getElementArray(data.comisiones,"comision",numeroComision);
-				$("<tr class='"+identificacion+"''><td>"+comision.nombre+"</td><td>"+nota+"</td></tr>").insertAfter($("#"+identificacion));
+				$("<tr class='"+identificacion+"''><td>"+comision.nombre+"</td>"+nota+"</tr>").insertAfter($("#"+identificacion));
 				$( "#evalCom"+numeroComision).click(function() {
   					horaDeEvaluar(numeroComision,comision.nombre);
 				});
@@ -180,15 +192,26 @@ function horaDeEvaluar(numeroDeComision,nombreDeComision){
 		});
 		select.attr("name","criterio"+this.criterio_evaluacion);
 		
-		$("#comentario_general_label").before(this.descripcion+" ");
-		$("#comentario_general_label").before(select);
-		$("#comentario_general_label").before("<br><textarea rows='2' name='obs"+this.criterio_evaluacion+"' form='formEvaluacion' cols='50' placeholder='Observación...'></textarea><br>");
+		$("#divCriterios").append(this.descripcion+" ");
+		$("#divCriterios").append(select);
+		$("#divCriterios").append("<br><textarea class='form-control' rows='2' name='obs"+this.criterio_evaluacion+"' form='formEvaluacion' cols='50' placeholder='Observación...'></textarea><br>");
 
 
 	});
 
-	$("#formEvaluacion").prepend("Criterios de Evaluacion<br>");
 
+	//Se agrega el número de comisión y de evaluación
+	$('<input>').attr({
+    	type: 'hidden',
+    	name: 'nro_Comision',
+    	value: numeroDeComision
+	}).appendTo('#formEvaluacion');
+	
+	$('<input>').attr({
+    	type: 'hidden',
+    	name: 'nro_Evaluacion',
+    	value: eval.evaluacion
+	}).appendTo('#formEvaluacion');
 
 	$("#divEvaluaciones").hide();
 	$("#divEvaluar").show();
@@ -196,7 +219,113 @@ function horaDeEvaluar(numeroDeComision,nombreDeComision){
 
 function evaluar(arreglo_formulario){
 	//Se reciben los datos del formulario como un arreglo
-	console.log(arreglo_formulario);
-	//EN proceso
-	window.localStorage.setItem("_form", JSON.stringify(arreglo_formulario));
+	var largo = arreglo_formulario.length;
+	//Los últimos dos elementos representan al número de comisión y de examen
+	var numeroEvaluacion = arreglo_formulario[largo-1].value;
+
+	var numeroComision = arreglo_formulario[largo-2].value;
+
+	//Al ser evaluado es necesario modificar "evaluaciones_comisiones" y "evaluciones_comisiones_criterios"
+	//Primero se modifica la evaluacion_comisiones
+	var encontrado = false;
+	var i = 0;
+	var datos = JSON.parse(window.localStorage.getItem("_datos")); 
+	while (!encontrado){
+		if ((datos.evaluaciones_comisiones[i].comision == numeroComision) && (datos.evaluaciones_comisiones[i].evaluacion == numeroEvaluacion)){
+			encontrado = true;
+			datos.evaluaciones_comisiones[i].observaciones = arreglo_formulario[largo-3].value;
+			datos.evaluaciones_comisiones[i].evaluacion_completa = true;
+		}
+		i++;
+	}
+
+	//Luego se modifica evaluaciones_comisiones_criterios
+	i = 0;
+	j = 0;
+	while (j<(largo - 3)){ //Mientras haya criterios 
+
+		if (datos.evaluaciones_comisiones_criterios[i].comision == numeroComision){
+			datos.evaluaciones_comisiones_criterios[i].nota = arreglo_formulario[j].value;
+			datos.evaluaciones_comisiones_criterios[i].observaciones = arreglo_formulario[j+1].value; 
+			j+=2;
+		}
+		i++;
+	}
+
+	window.localStorage.setItem("_datos", JSON.stringify(datos));
 }
+
+
+function cambiarEstilo(){
+
+	console.log("entro1");
+
+	if(localStorage.getItem("Estilo")==2)
+		$("head").append('<link id="estiloCargado" rel="stylesheet" href="css/miEstilo.css">');
+
+
+	$("#b").click(function(){
+		console.log("entro2");
+
+
+ 	 
+ 	 
+ 	 var cambioEstilo= localStorage.getItem("Estilo");
+ 	 
+ 	 console.log("cambioEstilo = "+cambioEstilo);
+
+ 	 if(cambioEstilo==null){
+ 	 	console.log("Entro cuando era null y cambio al estilo 2");
+ 	 	$("head").append('<link id="estiloCargado" rel="stylesheet" href="css/miEstilo.css">');
+ 	 	localStorage.setItem("Estilo",2);
+ 	 }
+ 	 else{
+ 	 		console.log("entro despues del if null");
+	 	 	if(cambioEstilo==2){
+	 	 		console.log("Entre antes del remove");
+	 	 		$("#estiloCargado").remove();
+	 	 		console.log("Entre antes del remove");
+	 	 		localStorage.setItem("Estilo",1);
+	 	 	}
+	 	 	else{//Si estilo es igual a 1
+					$("head").append('<link id="estiloCargado" rel="stylesheet" href="css/miEstilo.css">');
+	 	 			localStorage.setItem("Estilo",2);
+	 	 		
+	 	 		}
+
+ 	 }
+  			
+
+	});
+}
+
+function iniciarSesion(){
+	$("#iniciar_sesion").click(function(){
+
+		$("#ventana_login").remove();
+
+		$("#menuAcceso").remove();
+		$("#misMenues").append('<a class="nav-item nav-link" href="#">Home</a>');
+		$("#misMenues").append('<a class="nav-item nav-link" href="#">Item1</a>');
+		$("#misMenues").append('<a class="nav-item nav-link" href="#">Item2</a>');
+
+		$("#menuDerecha").append('		<div class="btn-group"> <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownmenu1" data-toggle="dropdown" aria-extended="true"><span class="fas fa-user"></span> Jorge Cardozo <span class="caret"></span> </button> <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownmenu1"> <a class="dropdown-item" href="#"> <span class="fas fa-cogs"></span>Configuracion</a> <form class="form-inline"><a class="dropdown-item" href="#"><span class="fas fa-power-off"></span> Cerrar Sesion</a> </form></ul> </div>');
+		$("#divEvaluaciones").show();
+
+		/*<div class="btn-group"> <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownmenu1" data-toggle="dropdown" aria-extended="true">Jorge Cardozo <span class="caret"></span> </button> <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownmenu1"> <a class="dropdown-item" href="#"> <span class="fas fa-cogs"></span>Configuracion</a> <form class="form-inline"><a class="dropdown-item" href="#"><span class="fas fa-power-off"></span> Cerrar Sesion</a> </form></ul> </div>	*/						 
+
+	});
+}
+
+function registrarse(){
+	$("#registrarse").click(function(){
+		$("#ventana_login").hide();
+		$("#ventana_registro").show();
+
+	});
+
+}
+
+
+
+

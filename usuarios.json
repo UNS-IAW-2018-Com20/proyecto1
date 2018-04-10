@@ -1,0 +1,15 @@
+{
+	"usuarios":[
+				{
+					"username":"evaluador1",
+					"password":"asd123",
+					"tipo":1
+				}
+	],
+	"tipo":[
+			{
+				"tipo":1,
+				"categoria":"Evaluador"
+			}
+	]
+}

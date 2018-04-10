@@ -45,6 +45,71 @@
 									"evaluacion_completa":false
 								}
 							],
+	"evaluaciones_comisiones_criterios":[
+											{
+												"comision":17,
+												"evaluacion":501,
+												"criterio_evaluacion":1,
+												"nota":10,
+												"observaciones":""
+											},
+											{
+												"comision":17,
+												"evaluacion":501,
+												"criterio_evaluacion":2,
+												"nota":8,
+												"observaciones":"Entrega fuera de término por una hora"
+											},
+											{
+												"comision":17,
+												"evaluacion":501,
+												"criterio_evaluacion":3,
+												"nota":10,
+												"observaciones":"Código muy claro e indentado."
+											},
+											{
+												"comision":18,
+												"evaluacion":501,
+												"criterio_evaluacion":1,
+												"nota":"",
+												"observaciones":""
+											},
+											{
+												"comision":18,
+												"evaluacion":501,
+												"criterio_evaluacion":2,
+												"nota":"",
+												"observaciones":""
+											},
+											{
+												"comision":18,
+												"evaluacion":501,
+												"criterio_evaluacion":3,
+												"nota":"",
+												"observaciones":""
+											},
+											{
+												"comision":19,
+												"evaluacion":501,
+												"criterio_evaluacion":1,
+												"nota":"",
+												"observaciones":""
+											},
+											{
+												"comision":19,
+												"evaluacion":501,
+												"criterio_evaluacion":2,
+												"nota":"",
+												"observaciones":""
+											},
+											{
+												"comision":19,
+												"evaluacion":501,
+												"criterio_evaluacion":3,
+												"nota":"",
+												"observaciones":""
+											}
+										],
 	"comisiones":[
 		{
 			"comision":17,
