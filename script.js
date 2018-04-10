@@ -13,10 +13,10 @@ $(document).ready(function(){
 		$(this).unbind('submit').submit();
 	});
 	//Oculto la pantalla de evaluación
-	$("#divEvaluar").hide();
+	$("#divEvaluarGeneral").hide();
 
 	/*parte que agrego Jorge1*/
-	$("#divEvaluaciones").hide();
+	$("#divEvaluacionesGeneral").hide();
 	$("#ventana_registro").hide();
 
 	cargarEvaluaciones();
@@ -29,11 +29,11 @@ $(document).ready(function(){
 });
 
 function volver(){
-	$("#tablaEvaluar thead tr").remove()
-	$("#tablaEvaluar tbody tr:first").remove()
+	//$("#tablaEvaluar tbody tr:first").remove();
 	$("#divCriterios").empty();
-	$("#divEvaluar").hide();
-	$("#divEvaluaciones").show();
+	$("#divEvaluarGeneral").hide();
+	$("#divEvaluacionesGeneral").show();
+	$("#tituloEvaluar").empty();
 }
 
 function cargarEvaluaciones(){
@@ -68,7 +68,7 @@ function cargarEvaluacionesAux(evaluaciones){
 						//Se crea el identificador ev+ id de la evauluación
 						var identificacion = "ev"+$(this).attr("evaluacion");
 						//Se agrega la fila de la evaluación a la tabla 
-	        			$("#tablaEvaluaciones tbody").append("<tr id='"+identificacion+"'><td col-xl-2>"+$(this).attr("nombre")+"</td><td col-xl-5>"+$(this).attr("descripcion")+"</td><td col-xl-5>"+$(this).attr("fecha")+"</td></tr>");
+	        			$("#tablaEvaluaciones tbody").append("<tr id='"+identificacion+"'><td>"+$(this).attr("nombre")+"</td><td>"+$(this).attr("descripcion")+"</td><td>"+$(this).attr("fecha")+"</td></tr>");
 	        			//<td>"+$(this).attr("nombre")+"</td><td>"+$(this).attr("descripcion")+"</td><td>"+$(this).attr("fecha")+"</td>
 	        			//Si es selecccionable entonces se agrega el atributo html clickeable como true y se agrega la función que se ejecuta al clickearla
 	        			if (clickeable){ 
@@ -94,9 +94,6 @@ function clickEvaluacion(identificacion){
 			if ("ev"+this.evaluacion == identificacion){
 				var completa = this.evaluacion_completa;
 				var nota = (completa === true) ? "<td>Nota: "+ this.nota +"</td><td>Observación: "+this.observaciones+"</td>" : "<td> No Evaluado</td><td><button type='button' id='evalCom"+this.comision+"'>Evaluar</button></td>";
-				if (completa === true){
-
-				}
 				var numeroComision = this.comision;
 				var comision = getElementArray(data.comisiones,"comision",numeroComision);
 				$("<tr class='"+identificacion+"''><td>"+comision.nombre+"</td>"+nota+"</tr>").insertAfter($("#"+identificacion));
@@ -166,18 +163,19 @@ function horaDeEvaluar(numeroDeComision,nombreDeComision){
 	$.each(escalaNotas,function(){
 		select.append("<option>"+this.nota+"</option>")
 	});
+	select.attr("form-control");
 	select.attr("id","criterio"+this.criterio_evaluacion);
 
 
-	$("#tablaEvaluar thead").append("<tr><th colspan='3'>"+eval.nombre+" - "+nombreDeComision+"</th></tr>");
+	$("#tituloEvaluar").append("<h2>"+eval.nombre+" - "+nombreDeComision+"</h2>");
 
 	//Se crea una lista, se obtienen los miembros de la comisión, y se agregan a la misma
-	$("#tablaEvaluar tbody").prepend("<tr><td colspan='3'><ul></ul></td></tr>");
+	/*$("#tablaEvaluar tbody").prepend("<tr><td colspan='3'><ul></ul></td></tr>");*/
 	var miembros = getElementsArray(data.comisiones_integrantes,"comision",numeroDeComision);
-	$("#tablaEvaluar tbody tr td ul").append("<li>Integrantes</li>");
+	
 	$.each(miembros,function(){
 		var alumno = getElementArray(data.alumnos,"alumno",this.alumno);
-		$("#tablaEvaluar tbody tr td ul").append("<li>"+alumno.apellido+", "+alumno.nombre+"</li>");
+		$("#tituloEvaluar").append("<h3>"+alumno.apellido+", "+alumno.nombre+"</h3>");
 	});
 
 	//Se obtienen los criterios de la evaluación
@@ -213,8 +211,8 @@ function horaDeEvaluar(numeroDeComision,nombreDeComision){
     	value: eval.evaluacion
 	}).appendTo('#formEvaluacion');
 
-	$("#divEvaluaciones").hide();
-	$("#divEvaluar").show();
+	$("#divEvaluacionesGeneral").hide();
+	$("#divEvaluarGeneral").show();
 }
 
 function evaluar(arreglo_formulario){
@@ -254,6 +252,7 @@ function evaluar(arreglo_formulario){
 
 	window.localStorage.setItem("_datos", JSON.stringify(datos));
 }
+
 
 
 function cambiarEstilo(){
@@ -297,6 +296,9 @@ function cambiarEstilo(){
   			
 
 	});
+
+
+
 }
 
 function iniciarSesion(){
@@ -310,7 +312,7 @@ function iniciarSesion(){
 		$("#misMenues").append('<a class="nav-item nav-link" href="#">Item2</a>');
 
 		$("#menuDerecha").append('		<div class="btn-group"> <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownmenu1" data-toggle="dropdown" aria-extended="true"><span class="fas fa-user"></span> Jorge Cardozo <span class="caret"></span> </button> <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownmenu1"> <a class="dropdown-item" href="#"> <span class="fas fa-cogs"></span>Configuracion</a> <form class="form-inline"><a class="dropdown-item" href="#"><span class="fas fa-power-off"></span> Cerrar Sesion</a> </form></ul> </div>');
-		$("#divEvaluaciones").show();
+		$("#divEvaluacionesGeneral").show();
 
 		/*<div class="btn-group"> <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownmenu1" data-toggle="dropdown" aria-extended="true">Jorge Cardozo <span class="caret"></span> </button> <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownmenu1"> <a class="dropdown-item" href="#"> <span class="fas fa-cogs"></span>Configuracion</a> <form class="form-inline"><a class="dropdown-item" href="#"><span class="fas fa-power-off"></span> Cerrar Sesion</a> </form></ul> </div>	*/						 
 

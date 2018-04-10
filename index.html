@@ -12,10 +12,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/estiloInicial.css">
     <link rel="stylesheet" href="css/custom.css">
-
-    <!--<link rel="stylesheet" href="css/estilosLogin.css">-->
-    <link rel="stylesheet" href="iconos/css/fontawesome.min.css">
-
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css"> <!--Iconos--> 
     
 
    <!-- <link rel="stylesheet" href="css/miEstilo.css">-->
@@ -51,24 +48,9 @@
                 </div>
                 
                <form id="menuDerecha" class="form-inline my-2 my-lg-0 d-flex flex-row justify-content-center">
-				      <button id="b" type="button" href="#" class="btn btn-primary mr-2">Estilo</button>
-   			   </form>
+    				      <button id="b" type="button" href="#" class="btn btn-primary mr-2">Estilo</button>
+       			   </form>
             </div>  
-
-             <!--<div id="menuDerecha" class="nav-item d-flex flex-row justify-content-center nav navbar-nav navbar-right">
-                  <a id="b" href="#" class="btn btn-primary mr-2">Estilo</a>
-             </div>
-			-->
-			<!--<ul id="menuDerecha" class="nav-item d-flex flex-row justify-content-center nav navbar-nav navbar-right">
-				<a id="b" class="nav-item nav-link" href="#">Estilo</a>
-				
-			</ul>-->
-			
-
-            
-            
-
-
         </nav>
       </head>
     </div>
@@ -100,8 +82,8 @@
                            
                           </div>
                            
-
                       </div>
+
                       <div class="myform-bottom">
 
 
@@ -112,7 +94,6 @@
                           <div class="form-group">
                               <input type="password" name="form-password" placeholder="Contraseña..." class="form-control" id="form-password">
                           </div>
-
                           <button id="iniciar_sesion" type="submit" class="mybtn">Entrar</button>
                         </form>
                       </div>
@@ -156,138 +137,93 @@
             </div>
             
         </div>
-      </div>
-
- 	<!--tablas nueva version-->
-
- 	<!--<div id="divEvaluaciones" class="col-lg-12">
-		<div  class="my-content" >
-        <div class="container" > 
-
-            
-
-            <div class="row ">
-                  <div class="col-lg-12 col-lg-offset-3 myform-cont" >
-                      <div class="myform-top">
-                          <div class="myform-top-left">
-                            
-                          </div>
-                          
-                      </div>
-                      <div class="myform-bottom">
-                        
-
-                      	<div id="divEvaluaciones">
-							<table class="table table-hover table-bordered" id="tablaEvaluaciones">
-								<thead class="thead-inverse"><tr><th colspan="3">Listado de Evaluaciones</th></tr></thead>
-								<tbody></tbody>
-							</table>	
-						</div>
-                      		
-
-
-
-                      </div>
-                  </div>
-            </div>
-
-        </div>
-    </div>-->
-
-
-
-    <div id="divEvaluaciones">
-		<table class="table table-hover table-bordered" id="tablaEvaluaciones">
-			<thead class="thead-inverse"><tr><th col-xl-12>Listado de Evaluaciones</th></tr></thead>
-			<tbody></tbody>
-		</table>	
-	</div>
-
-
-
-
- 	
-	
-	<div id="divEvaluar" class="col-lg-12">
-		<div  class="my-content" >
-        <div class="container" > 
-
-            
-
-            <div class="row ">
-                  <div class="col-lg-12 col-lg-offset-3 myform-cont" >
-                      <div class="myform-top">
-                          <div class="myform-top-left">
-                            <!--<h3>Integrantes</h3>
-                              <p>Comision:</p>-->
-                          </div>
-                          
-                      </div>
-                      <div class="myform-bottom">
-                        
-
-
-                      		<div id="divEvaluar" class="col-lg-12">
-            								<table class="table table-hover table-bordered" id="tablaEvaluar">
-            									<thead class="thead-inverse"></thead>
-            									<tbody>
-            										<tr>
-            											<td colspan="3">
-
-            													<form id="formEvaluacion">
-                                        <div id="divCriterios">
-                                          Criterios de Evaluacion <br>
-                                        </div>
-            														<label id="comentario_general_label">Comentario General</label> <br>
-            														<textarea class="form-control" rows="4" name="comentario_general" required="true" cols="50" placeholder="Este campo es obligatorio"></textarea><br>
-            														<label id="nota_general_label"> Nota General: </label> <br>
-            														<input type="button" value="Volver" id="backButton" align="center" /> <input type="submit" id="califButton" align="center" />
-            													</form>
-            											
-            												
-            											</td>
-            										</tr>
-            									</tbody>
-            								</table>
-							</div>
-
-
-
-                      </div>
-                  </div>
-            </div>
-
-        </div>
     </div>
 
 
+ 	
+    <div id="divEvaluacionesGeneral" class="col-lg-12">
+        <div  class="my-content" >
+            <div class="container" > 
+                <div class="row ">
+                      <div class="col-lg-12 col-lg-offset-3 myform-cont" >
+                          <div class="myform-top">
+                              <div class="myform-top-left">
+                                <h3>Listado de Evaluaciones</h3>
+                                  <!--<p>Comision:</p>-->
+                              </div>
+                              
+                          </div>
+                          <div class="myform-bottom">
+
+                            <div id="divEvaluaciones col-lg-12">
+                              <table class="table table-hover table-bordered" id="tablaEvaluaciones">
+                                <tbody></tbody>
+                              </table>  
+                            </div>
+                          </div>
+                      </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+ 	
+	
+  	<div id="divEvaluarGeneral" class="col-lg-12">
+  		<div  class="my-content" >
+          <div class="container" > 
+              <div class="row ">
+                    <div class="col-lg-12 col-lg-offset-3 myform-cont" >
+                        <div class="myform-top">
+                            <div id="tituloEvaluar" class="myform-top-left">
+                              
+                            </div>
+                            
+                        </div>
+                        <div class="myform-bottom">
+
+                        <div id="divEvaluar" class="col-lg-12">
+                      		<table class="table table-hover table-bordered" id="tablaEvaluar">
+                      			<tbody>
+                      				<tr>
+                      					<td colspan="3">
+
+                      						<form id="formEvaluacion">
+                                    <div id="divCriterios">
+                                          Criterios de Evaluacion <br>
+                                    </div>
+                      							<label id="comentario_general_label">Comentario General</label> <br>
+                      							<textarea class="form-control" rows="4" name="comentario_general" required="true" cols="50" placeholder="Este campo es obligatorio"></textarea><br>
+                      							<label id="nota_general_label"> Nota General: </label> <br>
+                      							<input type="button" value="Volver" id="backButton" align="center" /> <input type="submit" id="califButton" align="center" />
+                      						</form>
+                      					
+                      						
+                      					</td>
+                      				</tr>
+                      			</tbody>
+                      		</table>
+                      	</div>
+
+                        </div>
+                    </div>
+              </div>
+
+          </div>
+      </div>
+
+    </div>
 
 
+      <!--Footer-->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!--Footer-->
-
-   <!-- <footer id="pie" class="footer py-2 text-xs-center">
-    	<div class="container">		
-    		<p>Comision - Iglesias-Cardozo - 2018</p>
-    	</div>
+    <footer id="pie" class="footer py-2 text-xs-center">
+      	<div class="container">		
+      		<p>Comision - Iglesias-Cardozo - 2018</p>
+      	</div>
     </footer>
-
-	-->
-
 
 
 
@@ -296,15 +232,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+    <!--<script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
 
-
+    -->
 
   	<script src="jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="script.js"></script>
     <script src="js/main.js"></script>
-    
-
   </body>
 </html>
