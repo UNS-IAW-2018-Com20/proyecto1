@@ -1,5 +1,5 @@
 .navbar {
-  background-color: #f0f0f0;
+  background-color: #222;
   font-size:large;
 }
 
@@ -79,14 +79,14 @@
 /*Estilo de los botones*/
 .btn-primary {
   color: #fff;
-  background-color: #49afcd;
-  border-color: #49afcd;
+  background-color: #d14836;
+  border-color: #d14836;
 }
 
 .btn-primary:hover {
   color: #fff;
-  background-color: #2f96b4;
-  border-color: #2f96b4;
+  background-color: #c53727;
+  border-color: #c53727;
 }
 
 .btn-primary:focus, .btn-primary.focus {
@@ -119,7 +119,7 @@ body {
     /*color: #000;*/
     line-height: 30px;
     text-align: center;
-    background-color: #fff;
+    background-color: #05b6e8;
 
 }
 strong { 
@@ -215,7 +215,7 @@ textarea.form-control:focus {
 
 button.mybtn {
     height: 50px;
-    background: #49afcd;
+    background: #d14836;
     border: 0;
     font-size: 16px;
     font-weight: 500;
@@ -231,7 +231,7 @@ button.mybtn:hover, button.mybtn:active {
 button.mybtn:focus { 
     opacity: 0.6;  
     color: #fff; 
-    background: #2f96b4; 
+    background: #c53727; 
 }
 
 /*LOGIN REDES SOCIALES*/
@@ -285,7 +285,7 @@ button.mybtn:focus {
     margin:0 auto;
 }
 
-*Estilo para la tabla Tablas*/
+/*Estilo para la tabla Tablas*/
 
 .table {
   width: 100%;
@@ -398,7 +398,7 @@ button.mybtn:focus {
   padding: 0.25rem 0.75rem;
   font-size: 1.25rem;
   line-height: 1;
-  background: #49afcd;
+  background: #d14836;
   border: 1px solid transparent;
   border-radius: 0.25rem;
 }

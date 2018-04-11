@@ -11,7 +11,6 @@
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/estiloInicial.css">
-    <link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css"> <!--Iconos--> 
     
 
@@ -73,8 +72,7 @@
                               <p>Digita tu usuario y contraseña:</p>
                           </div>
                           <div class="">
-                          		<br>
-                            	<button id="registrarse" type="submit" class="mybtn">Registrarse</button>
+                          		
                       	  </div>
                           <div class="myform-top-right">
                             <i class="fa fa-user"></i>
@@ -88,13 +86,19 @@
 
 
                         <form role="form" action="" method="post" class="">
-                          <div class="form-group">
+                         	<div class="form-group">
                               <input type="text" name="form-username" placeholder="Usuario..." class="form-control" id="form-username">
-                          </div>
-                          <div class="form-group">
+                          	</div>
+                          	<div class="form-group">
                               <input type="password" name="form-password" placeholder="Contraseña..." class="form-control" id="form-password">
-                          </div>
-                          <button id="iniciar_sesion" type="submit" class="mybtn">Entrar</button>
+                          	</div>
+						  	<div class="form-group">
+                          		<button id="iniciar_sesion" type="submit" class="mybtn">Entrar</button>
+                         	</div>
+
+  							<div class="form-group">
+                            	<button id="registrarse" type="submit" class="mybtn">Registrarse</button>
+                            </div>
                         </form>
                       </div>
                   </div>
@@ -105,7 +109,7 @@
 
     <!--Ventana de registro-->
 
-    <div id="ventana_registro" class="my-content" >
+    <div id="ventana_registro" style="display: none;" class="my-content" >
         <div class="container" > 
             
             <div class="row">
@@ -141,7 +145,7 @@
 
 
  	
-    <div id="divEvaluacionesGeneral" class="col-lg-12">
+    <div id="divEvaluacionesGeneral" class="col-sm-12">
         <div  class="my-content" >
             <div class="container" > 
                 <div class="row ">
@@ -153,14 +157,18 @@
                               </div>
                               
                           </div>
+
                           <div class="myform-bottom">
 
-                            <div id="divEvaluaciones col-lg-12">
-                              <table class="table table-hover table-bordered" id="tablaEvaluaciones">
+                            <div id="divEvaluaciones" class="container">
+
+                              <table class="table table-hover " id="tablaEvaluaciones">
                                 <tbody></tbody>
                               </table>  
                             </div>
                           </div>
+                          </div>  
+
                       </div>
                 </div>
 
@@ -182,30 +190,20 @@
                             </div>
                             
                         </div>
-                        <div class="myform-bottom">
+                        <div class="myform-bottom ">
 
-                        <div id="divEvaluar" class="col-lg-12">
-                      		<table class="table table-hover table-bordered" id="tablaEvaluar">
-                      			<tbody>
-                      				<tr>
-                      					<td colspan="3">
+                            <div id="divEvaluar" class="col-lg-12">
 
-                      						<form id="formEvaluacion">
+								<form id="formEvaluacion">
                                     <div id="divCriterios">
                                           Criterios de Evaluacion <br>
                                     </div>
-                      							<label id="comentario_general_label">Comentario General</label> <br>
-                      							<textarea class="form-control" rows="4" name="comentario_general" required="true" cols="50" placeholder="Este campo es obligatorio"></textarea><br>
-                      							<label id="nota_general_label"> Nota General: </label> <br>
-                      							<input type="button" value="Volver" id="backButton" align="center" /> <input type="submit" id="califButton" align="center" />
-                      						</form>
-                      					
-                      						
-                      					</td>
-                      				</tr>
-                      			</tbody>
-                      		</table>
-                      	</div>
+          							<label id="comentario_general_label">Comentario General</label> <br>
+          							<textarea class="form-control" rows="4" name="comentario_general" required="true" cols="50" placeholder="Este campo es obligatorio"></textarea><br>
+          							<label id="nota_general_label"> Nota General: </label><label id="nota_general"> 1</label><br>
+          							<input type="button" class="btn btn-primary" value="Volver" id="backButton" align="center" /> <input type="submit" class="btn btn-primary" id="califButton" align="center" />
+          						</form>
+                          	</div>
 
                         </div>
                     </div>
@@ -215,17 +213,6 @@
       </div>
 
     </div>
-
-
-      <!--Footer-->
-
-    <footer id="pie" class="footer py-2 text-xs-center">
-      	<div class="container">		
-      		<p>Comision - Iglesias-Cardozo - 2018</p>
-      	</div>
-    </footer>
-
-
 
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>

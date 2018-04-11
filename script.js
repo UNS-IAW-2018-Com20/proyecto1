@@ -1,3 +1,5 @@
+var idEvaluador = 1;
+
 $(document).ready(function(){
 	//window.localStorage.clear();
 	//console.log("carga");
@@ -26,17 +28,28 @@ $(document).ready(function(){
 	$("#divEvaluacionesGeneral").hide();
 	$("#ventana_registro").hide();
 
+
+	if($(window).width()<=421)
+  				$("#divEvaluaciones").attr("class","table-responsive");
+
+	$(window).resize(function() {
+
+  			if($(window).width()<=421)
+  				$("#divEvaluaciones").attr("class","table-responsive");
+  			else
+  				$("#divEvaluaciones").attr("class","table-responsive");
+
+	});
+
 	cargarEvaluaciones();
 	cambiarEstilo();
 	iniciarSesion();
 	registrarse();
 
-	/*fin de la parte de Jorge1*/
-
 });
 
 function volver(){
-	//$("#tablaEvaluar tbody tr:first").remove();
+
 	$("#divCriterios").empty();
 	$("#divEvaluarGeneral").hide();
 	$("#divEvaluacionesGeneral").show();
@@ -45,7 +58,7 @@ function volver(){
 
 function cargarEvaluaciones(){
 	if (window.localStorage.getItem("_datos") === null) {
-		$.getJSON("datos2.json",
+		$.getJSON("datos.json",
 				function(data){
 					window.localStorage.setItem("_datos", JSON.stringify(data));
 					//Cargo las evaluaciones desde el JSON
@@ -54,36 +67,42 @@ function cargarEvaluaciones(){
 	} else {
 		//Cargo las evaluaciones desde el localStorage
 		var datos = JSON.parse(window.localStorage.getItem("_datos"));
-		cargarEvaluacionesAux(datos.evaluaciones);
+		cargarEvaluacionesAux(datos.evaluaciones,datos.evaluaciones_comisiones);
 
 	}
 
 }
 
-function cargarEvaluacionesAux(evaluaciones){
+function cargarEvaluacionesAux(evaluaciones,evaluaciones_comisiones){
 	//Carga las evaluaciones desde evaluaciones
 	$.each(evaluaciones, function() {
-						//Parse de la fecha
-						var from = ($(this).attr("fecha")).split("/");
-						var f = new Date(from[2], from[1] - 1, from[0]);
-						var actual = new Date();
-						var clickeable;
-						//Si la fecha de la evaluación es anterior o igual a la actual entonces es seleccionable (clickeable)
-						if (f <= actual)
-							clickeable = true;
-						else clickeable = false;
-						//Se crea el identificador ev+ id de la evauluación
-						var identificacion = "ev"+$(this).attr("evaluacion");
-						//Se agrega la fila de la evaluación a la tabla 
-	        			$("#tablaEvaluaciones tbody").append("<tr id='"+identificacion+"'><td>"+$(this).attr("nombre")+"</td><td>"+$(this).attr("descripcion")+"</td><td>"+$(this).attr("fecha")+"</td></tr>");
-	        			//<td>"+$(this).attr("nombre")+"</td><td>"+$(this).attr("descripcion")+"</td><td>"+$(this).attr("fecha")+"</td>
-	        			//Si es selecccionable entonces se agrega el atributo html clickeable como true y se agrega la función que se ejecuta al clickearla
-	        			if (clickeable){ 
-	        				$("#"+identificacion).attr('clickeable','true');
-	        				$("#"+identificacion).attr('creada','false');
-	        				$("#"+identificacion).click(function(){
-	        					clickEvaluacion(identificacion);
-	        				});
+						//Por cada evaluación se obtienen las comisiones de la misma
+						var evaluacion_Comisiones = getElementsArray(evaluaciones_comisiones,"evaluacion",this.evaluacion);
+						//Luego se corrobora si alguna de esas comisiones son evaluadas por el evaluador (En caso de implementar el login podrían ser varios evaluadores)
+						var evaluador_Comisiones = getElementArray(evaluacion_Comisiones,"evaluador",idEvaluador);
+						
+						if (evaluador_Comisiones != null){
+							//Parse de la fecha
+							var from = ($(this).attr("fecha")).split("/");
+							var f = new Date(from[2], from[1] - 1, from[0]);
+							var actual = new Date();
+							var clickeable;
+							//Si la fecha de la evaluación es anterior o igual a la actual entonces es seleccionable (clickeable)
+							if (f <= actual)
+								clickeable = true;
+							else clickeable = false;
+							//Se crea el identificador ev+ id de la evauluación
+							var identificacion = "ev"+$(this).attr("evaluacion");
+							//Se agrega la fila de la evaluación a la tabla 
+		        			$("#tablaEvaluaciones tbody").append("<tr bgColor=#2f96b4 id='"+identificacion+"'><td>"+$(this).attr("nombre")+"</td><td>"+$(this).attr("descripcion")+"</td><td>"+$(this).attr("fecha")+"</td></tr>");
+		        			//Si es selecccionable entonces se agrega el atributo html clickeable como true y se agrega la función que se ejecuta al clickearla
+		        			if (clickeable){ 
+		        				$("#"+identificacion).attr('clickeable','true');
+		        				$("#"+identificacion).attr('creada','false');
+		        				$("#"+identificacion).click(function(){
+		        					clickEvaluacion(identificacion);
+		        				});
+		        			}
 	        			}
 	   });
 }
@@ -97,13 +116,13 @@ function clickEvaluacion(identificacion){
 		var data = JSON.parse(window.localStorage.getItem("_datos"));
 
 		$.each(data.evaluaciones_comisiones, function() {
-			//Si la comisión corresponde a la evaluación entonces se agrega
-			if ("ev"+this.evaluacion == identificacion){
+			//Si la comisión corresponde a la evaluación y al evaluador entonces se agrega
+			if (("ev"+this.evaluacion == identificacion)&& (this.evaluador== idEvaluador)){ 
 				var completa = this.evaluacion_completa;
-				var nota = (completa === true) ? "<td>Nota: "+ this.nota +"</td><td>Observación: "+this.observaciones+"</td>" : "<td> No Evaluado</td><td><button type='button' id='evalCom"+this.comision+"'>Evaluar</button></td>";
+				var nota = (completa === true) ? "<td>Nota: "+ this.nota +"</td><td>Observación: "+this.observaciones+"</td>" : "<td> No Evaluado</td><td><button type='button' class='btn btn-primary' id='evalCom"+this.comision+"'>Evaluar</button></td>";
 				var numeroComision = this.comision;
 				var comision = getElementArray(data.comisiones,"comision",numeroComision);
-				$("<tr class='"+identificacion+"''><td>"+comision.nombre+"</td>"+nota+"</tr>").insertAfter($("#"+identificacion));
+				$("<tr class='"+identificacion+"' trComision'><td>"+comision.nombre+"</td>"+nota+"</tr>").insertAfter($("#"+identificacion));
 				$( "#evalCom"+numeroComision).click(function() {
   					horaDeEvaluar(numeroComision,comision.nombre);
 				});
@@ -127,7 +146,7 @@ function getElementArray(arreglo,elemento,valor){
 	var resultado = null;
 	var encontrado = false;
 	var i=0;
-	while (i < arreglo.length && !encontrado){
+	while (i < Object.keys(arreglo).length && !encontrado){
 		if (arreglo[i][elemento] == valor){
 			encontrado = true;
 			resultado = arreglo[i];
@@ -142,7 +161,7 @@ function getElementsArray(arreglo,elemento,valor){
 	var resultado = new Object();
 	var i=0;
 	var j=0;
-	while (i < arreglo.length){
+	while (i < Object.keys(arreglo).length){
 		if (arreglo[i][elemento] == valor){
 			resultado[j] = arreglo[i];
 			j++;
@@ -285,37 +304,29 @@ function evaluar(arreglo_formulario){
 
 function cambiarEstilo(){
 
-	console.log("entro1");
 
 	if(localStorage.getItem("Estilo")==2)
-		$("head").append('<link id="estiloCargado" rel="stylesheet" href="css/miEstilo.css">');
+		$("head").append('<link id="estiloCargado" rel="stylesheet" href="css/estiloOpcion.css">');
 
 
 	$("#b").click(function(){
-		console.log("entro2");
-
 
  	 
  	 
  	 var cambioEstilo= localStorage.getItem("Estilo");
- 	 
- 	 console.log("cambioEstilo = "+cambioEstilo);
 
  	 if(cambioEstilo==null){
- 	 	console.log("Entro cuando era null y cambio al estilo 2");
- 	 	$("head").append('<link id="estiloCargado" rel="stylesheet" href="css/miEstilo.css">');
+
+ 	 	$("head").append('<link id="estiloCargado" rel="stylesheet" href="css/estiloOpcion.css">');
  	 	localStorage.setItem("Estilo",2);
  	 }
  	 else{
- 	 		console.log("entro despues del if null");
 	 	 	if(cambioEstilo==2){
-	 	 		console.log("Entre antes del remove");
 	 	 		$("#estiloCargado").remove();
-	 	 		console.log("Entre antes del remove");
 	 	 		localStorage.setItem("Estilo",1);
 	 	 	}
 	 	 	else{//Si estilo es igual a 1
-					$("head").append('<link id="estiloCargado" rel="stylesheet" href="css/miEstilo.css">');
+					$("head").append('<link id="estiloCargado" rel="stylesheet" href="css/estiloOpcion.css">');
 	 	 			localStorage.setItem("Estilo",2);
 	 	 		
 	 	 		}
@@ -339,10 +350,8 @@ function iniciarSesion(){
 		$("#misMenues").append('<a class="nav-item nav-link" href="#">Item1</a>');
 		$("#misMenues").append('<a class="nav-item nav-link" href="#">Item2</a>');
 
-		$("#menuDerecha").append('		<div class="btn-group"> <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownmenu1" data-toggle="dropdown" aria-extended="true"><span class="fas fa-user"></span> Jorge Cardozo <span class="caret"></span> </button> <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownmenu1"> <a class="dropdown-item" href="#"> <span class="fas fa-cogs"></span>Configuracion</a> <form class="form-inline"><a class="dropdown-item" href="#"><span class="fas fa-power-off"></span> Cerrar Sesion</a> </form></ul> </div>');
+		$("#menuDerecha").append('		<div class="btn-group"> <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownmenu1" data-toggle="dropdown" aria-extended="true"><span class="fa fa-user"></span> Jorge Cardozo <span class="caret"></span> </button> <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownmenu1"> <a class="dropdown-item" href="#"> <span class="fa fa-cogs"></span>Configuracion</a> <form class="form-inline"><a class="dropdown-item" href="#"><span class="fa fa-power-off"></span> Cerrar Sesion</a> </form></ul> </div>');
 		$("#divEvaluacionesGeneral").show();
-
-		/*<div class="btn-group"> <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownmenu1" data-toggle="dropdown" aria-extended="true">Jorge Cardozo <span class="caret"></span> </button> <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownmenu1"> <a class="dropdown-item" href="#"> <span class="fas fa-cogs"></span>Configuracion</a> <form class="form-inline"><a class="dropdown-item" href="#"><span class="fas fa-power-off"></span> Cerrar Sesion</a> </form></ul> </div>	*/						 
 
 	});
 }
