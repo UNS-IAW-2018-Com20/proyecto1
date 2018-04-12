@@ -60,15 +60,14 @@ function cargarEvaluaciones(){
 	if (window.localStorage.getItem("_datos") === null) {
 		$.getJSON("datos.json",
 				function(data){
-					window.localStorage.setItem("_datos", JSON.stringify(data));
-					//Cargo las evaluaciones desde el JSON
-					cargarEvaluacionesAux(data.evaluaciones);		
+					window.localStorage.setItem("_datos", JSON.stringify(data));	
+					var datos = JSON.parse(window.localStorage.getItem("_datos"));
+					cargarEvaluacionesAux(datos.evaluaciones,datos.evaluaciones_comisiones);
 				});
 	} else {
 		//Cargo las evaluaciones desde el localStorage
 		var datos = JSON.parse(window.localStorage.getItem("_datos"));
 		cargarEvaluacionesAux(datos.evaluaciones,datos.evaluaciones_comisiones);
-
 	}
 
 }
@@ -236,6 +235,8 @@ function horaDeEvaluar(numeroDeComision,nombreDeComision){
 
 
 	});
+
+	$("#nota_general").text(1);
 	
 
 	//Se agrega el número de comisión y de evaluación
@@ -288,7 +289,7 @@ function evaluar(arreglo_formulario){
 	i = 0;
 	j = 0;
 	while (j<(largo - 4)){ //Mientras haya criterios 
-
+		//console.log(datos.evaluaciones_comisiones_criterios);
 		if (datos.evaluaciones_comisiones_criterios[i].comision == numeroComision){
 			datos.evaluaciones_comisiones_criterios[i].nota = arreglo_formulario[j].value;
 			datos.evaluaciones_comisiones_criterios[i].observaciones = arreglo_formulario[j+1].value; 
