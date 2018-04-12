@@ -28,6 +28,7 @@ $(document).ready(function(){
 		$("#divEvaluacionesGeneral").hide();
 	} else {
 		$("#ventana_login").hide();
+		cargarEvaluaciones();
 	}
 
 
@@ -43,7 +44,6 @@ $(document).ready(function(){
 
 	});
 
-	cargarEvaluaciones();
 	cambiarEstilo();
 	iniciarSesion();
 	registrarse();
@@ -346,8 +346,10 @@ function cambiarEstilo(){
 function iniciarSesion(){
 	$("#iniciar_sesion").click(function(){
 
-		//Registra en local storage que está logueado
+		//Registra en local storage que está logueado y carga las evaluaciones
 		window.localStorage.setItem("_login","true");
+		cargarEvaluaciones();
+		
 		$("#ventana_login").remove();
 
 		$("#menuAcceso").remove();
