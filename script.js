@@ -28,6 +28,7 @@ $(document).ready(function(){
 		$("#divEvaluacionesGeneral").hide();
 	} else {
 		$("#ventana_login").hide();
+		modificarMenu();
 		cargarEvaluaciones();
 	}
 
@@ -349,18 +350,22 @@ function iniciarSesion(){
 		//Registra en local storage que está logueado y carga las evaluaciones
 		window.localStorage.setItem("_login","true");
 		cargarEvaluaciones();
-		
+
 		$("#ventana_login").remove();
+		modificarMenu();
 
-		$("#menuAcceso").remove();
-		$("#misMenues").append('<a class="nav-item nav-link" href="#">Home</a>');
-		$("#misMenues").append('<a class="nav-item nav-link" href="#">Item1</a>');
-		$("#misMenues").append('<a class="nav-item nav-link" href="#">Item2</a>');
-
-		$("#menuDerecha").append('		<div class="btn-group"> <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownmenu1" data-toggle="dropdown" aria-extended="true"><span class="fa fa-user"></span> Jorge Cardozo <span class="caret"></span> </button> <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownmenu1"> <a class="dropdown-item" href="#"> <span class="fa fa-cogs"></span>Configuracion</a> <form class="form-inline"><a class="dropdown-item" href="#"><span class="fa fa-power-off"></span> Cerrar Sesion</a> </form></ul> </div>');
 		$("#divEvaluacionesGeneral").show();
 
 	});
+}
+
+function modificarMenu(){
+	$("#menuAcceso").remove();
+	$("#misMenues").append('<a class="nav-item nav-link" href="#">Home</a>');
+	$("#misMenues").append('<a class="nav-item nav-link" href="#">Item1</a>');
+	$("#misMenues").append('<a class="nav-item nav-link" href="#">Item2</a>');
+	$("#menuDerecha").append('		<div class="btn-group"> <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownmenu1" data-toggle="dropdown" aria-extended="true"><span class="fa fa-user"></span> Jorge Cardozo <span class="caret"></span> </button> <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownmenu1"> <a class="dropdown-item" href="#"> <span class="fa fa-cogs"></span>Configuracion</a> <form class="form-inline"><a class="dropdown-item" href="#"><span class="fa fa-power-off"></span> Cerrar Sesion</a> </form></ul> </div>');
+		
 }
 
 function registrarse(){
