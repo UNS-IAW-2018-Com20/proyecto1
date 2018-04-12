@@ -1,13 +1,12 @@
 var idEvaluador = 1;
 
 $(document).ready(function(){
-	//window.localStorage.clear();
-	//console.log("carga");
 
 	//Acción del click en el botón de volver de la pantalla de evaluación
 	$("#backButton").click(function(){
 		volver();
 	});
+	
 	//Acción del submit del formulario de evaluación
 	$("#formEvaluacion").submit(function(event){
 		event.preventDefault();
@@ -19,14 +18,17 @@ $(document).ready(function(){
 		}).appendTo('#formEvaluacion');
 
 		evaluar($("#formEvaluacion").serializeArray());
-		$(this).unbind('submit').submit();
+		$(this).unbind('submit').submit();		
 	});
-	//Oculto la pantalla de evaluación
-	$("#divEvaluarGeneral").hide();
 
-	/*parte que agrego Jorge1*/
-	$("#divEvaluacionesGeneral").hide();
+	$("#divEvaluarGeneral").hide();
 	$("#ventana_registro").hide();
+	if (JSON.parse(window.localStorage.getItem("_login")) === null){
+		//Oculto la pantalla de evaluaciones
+		$("#divEvaluacionesGeneral").hide();
+	} else {
+		$("#ventana_login").hide();
+	}
 
 
 	if($(window).width()<=421)
@@ -289,7 +291,7 @@ function evaluar(arreglo_formulario){
 	i = 0;
 	j = 0;
 	while (j<(largo - 4)){ //Mientras haya criterios 
-		//console.log(datos.evaluaciones_comisiones_criterios);
+		console.log(datos.evaluaciones_comisiones_criterios);
 		if (datos.evaluaciones_comisiones_criterios[i].comision == numeroComision){
 			datos.evaluaciones_comisiones_criterios[i].nota = arreglo_formulario[j].value;
 			datos.evaluaciones_comisiones_criterios[i].observaciones = arreglo_formulario[j+1].value; 
@@ -344,6 +346,8 @@ function cambiarEstilo(){
 function iniciarSesion(){
 	$("#iniciar_sesion").click(function(){
 
+		//Registra en local storage que está logueado
+		window.localStorage.setItem("_login","true");
 		$("#ventana_login").remove();
 
 		$("#menuAcceso").remove();
